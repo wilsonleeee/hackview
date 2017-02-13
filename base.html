@@ -1,0 +1,127 @@
+﻿<html>
+    <head>
+        <title>图表演示</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+    </head>
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	<script type="text/javascript">
+		/*var data = [
+			[Date.UTC(2013,5,2),0.7695],
+			[Date.UTC(2013,5,3),0.7648],
+			[Date.UTC(2013,5,4),0.7645],
+			[Date.UTC(2013,5,5),0.7638],
+			[Date.UTC(2013,5,6),0.7549]
+		];*/
+
+		var data = [
+			['2013-05-02 12:01:01',0.7695],
+			['2013-05-03 12:02:01',0.7648],
+			['2013-05-04 12:03:02',0.7645],
+			['2013-05-05 12:04:03',0.7638],
+			['2013-05-06 12:05:04',0.7549]
+		];
+
+		console.log(data);
+		getData();
+		setInterval('getData()',1000000);
+
+		function getData(){
+			$.getJSON('/get', function (data) {
+			    console.log(data);
+					initChart(data);
+			});
+		};
+
+//		initChart(data);
+		function initChart(data)
+		{
+		    Highcharts.chart
+		    ('container',
+		    {
+		        chart:
+		        {
+		            zoomType: 'x'
+		        },
+		        title:
+		        {
+		            text: 'Time'
+		        },
+		        subtitle:
+		        {
+		            text: document.ontouchstart === undefined ?
+		                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+		        },
+		        xAxis:
+		        {
+		            type: 'category'
+		        },
+		        yAxis:
+		        {
+		            title:
+		            {
+		                text: 'Exchange rate'
+		            }
+		        },
+		        legend:
+		        {
+		            enabled: false
+		        },
+		        plotOptions:
+		        {
+		            area:
+		            {
+		                fillColor:
+		                {
+		                    linearGradient:
+		                    {
+		                        x1: 0,
+		                        y1: 0,
+		                        x2: 0,
+		                        y2: 1
+		                    },
+		                    stops:
+		                    [
+		                        [0, Highcharts.getOptions().colors[0]],
+		                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+		                    ]
+		                },
+		                marker:
+		                {
+		                    radius: 2
+		                },
+		                lineWidth: 1,
+		                states:
+		                {
+		                    hover:
+		                    {
+		                        lineWidth: 1
+		                    }
+		                },
+		                threshold: null
+		            }
+		        },
+
+		        series:
+		        [
+		        {
+		            type: 'area',
+		            name: 'USD to EUR',
+		            data: data
+		        }
+		        ]
+		    }
+		    );
+		}
+
+
+
+	</script>
+
+
+</html>
